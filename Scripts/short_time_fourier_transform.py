@@ -2,8 +2,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.signal as signal
+import os
 
 df = pd.read_csv("Datasets/synthetic_micro_doppler_dataset.csv")
+output_folder = "images"
+os.makedirs(output_folder, exist_ok=True)
 
 X = df.iloc[:, :-1].values.astype(float)
 y = df['label'].values
@@ -24,6 +27,10 @@ axes[0].set_title('Micro-Doppler Spectrogram (Label 0 - Bird)')
 axes[0].set_ylabel('Frequency [Hz]')
 axes[0].set_xlabel('Time [sec]')
 fig.colorbar(mesh_0, ax=axes[0], label='Magnitude')
+# Saving the images
+bird_path = os.path.join(output_folder, "bird_spectrogram.png")
+plt.savefig(bird_path, dpi=300, bbox_inches='tight')
+print(f"Saved: {bird_path}")
 
 # STFT for Class 1 (Drone)
 f1, t1, Zxx1 = signal.stft(sample_drone, fs=fs, nperseg=windor_size, noverlap=overlap_windows)
@@ -33,5 +40,11 @@ axes[1].set_ylabel('Frequency [Hz]')
 axes[1].set_xlabel('Time [sec]')
 fig.colorbar(mesh_1, ax=axes[1], label='Magnitude')
 
+drone_path = os.path.join(output_folder, "drone_spectrogram.png")
+plt.savefig(drone_path, dpi=300, bbox_inches='tight')
+print(f"Saved: {drone_path}")
+
 plt.tight_layout()
 plt.show()
+plt.close()
+

@@ -6,7 +6,8 @@ from sklearn.metrics import accuracy_score
 import pickle
 
 # Load the dataset
-df = pd.read_csv('synthetic_micro_doppler_dataset.csv')
+df = pd.read_csv('Datasets/synthetic_micro_doppler_dataset.csv')
+df = df.dropna()
 X = df.iloc[:, :-1].values  # All columns except the last
 y = df['label'].values       # Last column as labels
 
